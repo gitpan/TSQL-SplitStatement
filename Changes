@@ -2,3 +2,5 @@ Revision history for TSQL::SplitStatement
 
 0.01    Date/time
         First version, released on an unsuspecting world.  Broken.
+0.02    12/12/12
+        Perlcritic warnings reduced at levels 5,4, and 3.

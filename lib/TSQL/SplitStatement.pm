@@ -20,30 +20,30 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.01
+Version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 
 
 # -- **********************************************************
 
 sub new {
-    local $_ ;
+    local $_             = undef ;
     my $invocant         = shift ;
     my $class            = ref($invocant) || $invocant ;
-    my @elems            = @_ ;
     my $self             = bless {}, $class ;
 
     return $self ;
 }
 
 
-sub split {
+sub splitSQL {
 
-local $_ ;
+local $_             = undef ;
+
 my $invocant         = shift ;
 my $class            = ref($invocant) || $invocant ;
 
@@ -119,7 +119,7 @@ my @Terminator_replaces         = ();
 
 
 
-my $qr_Id = qr{[#_\w$@][#$:_.\w]*} ;
+my $qr_Id = qr{[#_\w$@][#$:_.\w]*}x ;
 
 my $s = $input ;
 
@@ -157,7 +157,7 @@ $s =~ s!(?<string>(?p) [N]?'(?:(?:[^']) | (?:''))*' )
            |
          (?<bracketquoted>\[  .*? \]  )
            |
-         (?<comment> \s____COMMENT_(\d)+\s
+         (?<comment> \s____COMMENT_(?:\d)+\s
          )
  ! if (defined($+{string})) {${SIndex}++; $S_replaces[${SIndex}] = $+{string} ; " ${SRepl}${SIndex} "} elsif (defined($+{doublequoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{doublequoted}; " ${QRepl}${QIndex} "} elsif (defined($+{bracketquoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{bracketquoted}; " ${QRepl}${QIndex} "}  elsif (defined($+{comment})) {$CommentIndex++; $Comment_positions[$CommentIndex]=length(${^PREMATCH}); ' ';} else {'z'} 
  !xigems ;
@@ -354,7 +354,7 @@ $s =~ s!\s____QUOTEDID_([\d]+)\s!$Q_replaces[$1]!gx ;
  
 #print $s;
 
-my @parsedInput = grep { $_ !~ /\A\s*\z/msx } split /\s*____SEPARATOR_TOKEN\s*/,$s;
+my @parsedInput = grep { $_ !~ /\A\s*\z/msx } split /\s*____SEPARATOR_TOKEN\s*/x,$s;
 
 #pp @parsedInput ;
 #
@@ -638,7 +638,11 @@ my @Phrases =
 )   ;
 
 my %TERM_RE     = () ;
-%TERM_RE        = map { my $l1 = $_->[0]; my $l2 = $_->[0] ; $l1 =~ s/^[^A-Z]*//; ($l1 => $l2); } @Phrases ;
+%TERM_RE        = map { my $key = $_->[0]; 
+                        my $val = $_->[0] ; 
+                        $key =~ s{^[^A-Z]*}{}x; 
+                        ($key => $val); 
+                      } @Phrases ;
 
 my $TERM_RE     = join '|', map { qr{$TERM_RE{$_}}xmsi} reverse sort keys %TERM_RE ;
 
@@ -654,15 +658,17 @@ $TERM_RE = qr{(?: \b(?:ALTER|CREATE)\b \s+ \bVIEW\b  \s+ \b(?:${qr_Id})\b (?:\s*
 
 
 
-my $LBL_TERM_RE = qr{ (?: (?: ${TERM_RE} ) .*?) (?= (?: (?: \b ${qr_label} \s+ )? (?: ${TERM_RE} ) ) ) }xmsi;
+my $LBL_TERM_RE         = qr{ (?: (?: ${TERM_RE} ) .*?) (?= (?: (?: \b ${qr_label} \s+ )? (?: ${TERM_RE} ) ) ) }xmsi;
 
-my $LBL_TERM_RE2 = qr{ \G (?: (?: \b ${qr_label} \s+ )? (?: ${TERM_RE} ) ) }xmsi;
+my $LBL_TERM_RE_OTHER   = qr{ \G (?: (?: \b ${qr_label} \s+ )? (?: ${TERM_RE} ) ) }xmsi;
 
 #warn $LBL_TERM_RE  ;
 
-    return ($LBL_TERM_RE,$LBL_TERM_RE2) ;
+    return ($LBL_TERM_RE,$LBL_TERM_RE_OTHER) ;
 
 }
+
+1;
 
 __DATA__
 
@@ -731,11 +737,11 @@ automatically be notified of progress on your bug as I make changes.
 
 It creates and returns a new TSQL::SplitStatement object. 
 
-=head2 C<split>
+=head2 C<splitSQL>
 
 =over 4
 
-=item * C<< $sql_splitter->split( $sql_string ) >>
+=item * C<< $sql_splitter->splitSQL( $sql_string ) >>
 
 =back
 
@@ -747,7 +753,7 @@ appear in the original SQL code.
 
     my $sql_splitter = SQL::SplitStatement->new();
     
-    my @statements = $sql_splitter->split( 'SELECT 1;' );
+    my @statements = $sql_splitter->splitSQL( 'SELECT 1;' );
     
     print 'The SQL code contains ' . scalar(@statements) . ' statements.';
     # The SQL code contains 2 statements.

@@ -14,7 +14,7 @@ my $s = do { local $/ = undef; <> ;} ;
 
 my $parser = TSQL::SplitStatement->new();
 
-my @parsedInput = $parser->split($s);
+my @parsedInput = $parser->splitSQL($s);
 
 pp @parsedInput ;
 
