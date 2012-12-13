@@ -20,11 +20,11 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.02
+Version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 
 
@@ -699,7 +699,7 @@ Contributors are more than welcome.
 
 =head1 DEPENDENCIES
 
-SQL::SplitStatement depends on the following modules:
+TSQL::SplitStatement depends on the following modules:
 
 =over 4
 
@@ -751,7 +751,7 @@ components.
 It returns a list containing the atomic statements, in the same order they
 appear in the original SQL code. 
 
-    my $sql_splitter = SQL::SplitStatement->new();
+    my $sql_splitter = TSQL::SplitStatement->new();
     
     my @statements = $sql_splitter->splitSQL( 'SELECT 1;' );
     
