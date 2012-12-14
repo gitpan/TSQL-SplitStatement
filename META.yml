@@ -22,6 +22,7 @@ requires:
   Clone: 0
   Data::Dump: 0
   Data::Dumper: 0
+  IPC::System::Simple: 0
   List::MoreUtils: 0
   List::Util: 0
   Test::More: 0
@@ -29,4 +30,4 @@ requires:
   indirect: 0
   perl: 0
   version: 0
-version: 0.03
+version: 0.04

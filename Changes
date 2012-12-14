@@ -6,3 +6,5 @@ Revision history for TSQL::SplitStatement
         Perlcritic warnings reduced at levels 5,4, and 3.
 0.03    13/12/12
         Corrected POD typos.
+0.04    14/12/12
+        Corrected missing dependency..

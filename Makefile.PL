@@ -20,6 +20,7 @@ WriteMakefile(
         'Clone'                     => 0,
         'Data::Dumper'              => 0,
         'Data::Dump'                => 0,
+        'IPC::System::Simple'       => 0, 
         'List::MoreUtils'           => 0,
         'List::Util'                => 0,
         'autodie'                   => 0,
