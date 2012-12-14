@@ -20,11 +20,11 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.04
+Version 0.05
 
 =cut
 
-our $VERSION = '0.04';
+our $VERSION = '0.05';
 
 
 
@@ -644,7 +644,9 @@ my %TERM_RE     = () ;
                         ($key => $val); 
                       } @Phrases ;
 
-my $TERM_RE     = join '|', map { qr{$TERM_RE{$_}}xmsi} reverse sort keys %TERM_RE ;
+#my $TERM_RE     = join '|', map { qr{$TERM_RE{$_}}xmsi} reverse sort keys %TERM_RE ;
+my $TERM_RE     = qr{${qr_label}}xmsi . '|' . join '|', map { qr{$TERM_RE{$_}}xmsi} reverse sort keys %TERM_RE ;
+
 
 
 #patch these in first - nasty hack on top of a hack

@@ -7,4 +7,6 @@ Revision history for TSQL::SplitStatement
 0.03    13/12/12
         Corrected POD typos.
 0.04    14/12/12
-        Corrected missing dependency..
+        Corrected missing dependency.
+0.05    15/12/12
+        Labels now split separately rather than being included in the previous 'text chunk'.
