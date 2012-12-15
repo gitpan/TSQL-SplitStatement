@@ -23,6 +23,7 @@ select 1 as a
 from ( select 1 as a except select 2 ) x
 
 label:
+label2:
 
 begin catch
 begin 

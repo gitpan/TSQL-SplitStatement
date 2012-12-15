@@ -20,11 +20,11 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.05
+Version 0.06
 
 =cut
 
-our $VERSION = '0.05';
+our $VERSION = '0.06';
 
 
 
@@ -297,7 +297,10 @@ $s =~ s!(\bgrant\b)( .*? \b to \b)
 #warn Dumper @Denys_replaces ;
 #warn Dumper @Grants_replaces ;
 
-my ($TokeniserPos,$TokeniserNext) = TSQL::SplitStatement->tokeniser() ;
+#my ($TokeniserPos,$TokeniserNext) = TSQL::SplitStatement->tokeniser() ;
+# cache this variable for efficiency
+state $TokeniserPos ;
+if ( ! defined $TokeniserPos ) { $TokeniserPos = TSQL::SplitStatement->tokeniser() ; }
 
 my @TokenPositions = () ;
 #$s =~ s!( ${Tokeniser} )
@@ -666,7 +669,8 @@ my $LBL_TERM_RE_OTHER   = qr{ \G (?: (?: \b ${qr_label} \s+ )? (?: ${TERM_RE} ) 
 
 #warn $LBL_TERM_RE  ;
 
-    return ($LBL_TERM_RE,$LBL_TERM_RE_OTHER) ;
+   #return ($LBL_TERM_RE,$LBL_TERM_RE_OTHER) ;
+   return $LBL_TERM_RE ;   
 
 }
 
@@ -755,7 +759,7 @@ appear in the original SQL code.
 
     my $sql_splitter = TSQL::SplitStatement->new();
     
-    my @statements = $sql_splitter->splitSQL( 'SELECT 1;' );
+    my @statements = $sql_splitter->splitSQL( 'SELECT 1;SELECT 2; );
     
     print 'The SQL code contains ' . scalar(@statements) . ' statements.';
     # The SQL code contains 2 statements.
@@ -774,7 +778,7 @@ Internal only.
 
 =head1 LIMITATIONS
 
-No limitations are currently known, as far as the intended uages is concerned.  
+No limitations are currently known, as far as the intended usage is concerned.  
 You *are* bound to uncover a large number of problems.
 The handling of create procedure/trigger/function statements is problematic.
 
@@ -794,19 +798,19 @@ You can also look for information at:
 
 =item * RT: CPAN's request tracker (report bugs here)
 
-L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=VSGDR-UnitTest-TestSet>
+L<http://rt.cpan.org/NoAuth/Bugs.html?Dist=TSQL::SplitStatement>
 
 =item * AnnoCPAN: Annotated CPAN documentation
 
-L<http://annocpan.org/dist/VSGDR-UnitTest-TestSet>
+L<http://annocpan.org/dist/TSQL::SplitStatement>
 
 =item * CPAN Ratings
 
-L<http://cpanratings.perl.org/d/VSGDR-UnitTest-TestSet>
+L<http://cpanratings.perl.org/d/TSQL::SplitStatement>
 
 =item * Search CPAN
 
-L<http://search.cpan.org/dist/VSGDR-UnitTest-TestSet/>
+L<http://search.cpan.org/dist/TSQL::SplitStatement/>
 
 =back
 

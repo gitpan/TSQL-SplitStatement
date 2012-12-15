@@ -8,5 +8,7 @@ Revision history for TSQL::SplitStatement
         Corrected POD typos.
 0.04    14/12/12
         Corrected missing dependency.
-0.05    15/12/12
+0.05    14/12/12
         Labels now split separately rather than being included in the previous 'text chunk'.
+0.06    15/12/12
+        Fixed invalid POD references. Made 'tokeniser' a cached value for efficiency reasons.  Altered sample script.
