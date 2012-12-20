@@ -12,6 +12,8 @@ use autodie qw(:all);
 use Clone;
 use base qw(Clone) ;
 
+use TSQL::Common::Regexp;
+
 ## TODO :- 1 stop this warning Variable "$NestedBracketsRE" will not stay shared at (re_eval 215) line 2.
 
 =head1 NAME
@@ -20,11 +22,11 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.06
+Version 0.07
 
 =cut
 
-our $VERSION = '0.06';
+our $VERSION = '0.07';
 
 
 
@@ -119,7 +121,8 @@ my @Terminator_replaces         = ();
 
 
 
-my $qr_Id = qr{[#_\w$@][#$:_.\w]*}x ;
+#my $qr_Id = qr{[#_\w$@][#$:_.\w]*}x ;
+my $qr_Id = TSQL::Common::Regexp->qr_id();
 
 my $s = $input ;
 
@@ -415,8 +418,10 @@ return @parsedInput ;
 
 sub tokeniser {
 #
-my $qr_Id = q{(?:[#_\w$@][#$:_.\w]*)} ;
-my $qr_label = q{(?:[#_\w$@][#$:_.\w]*[:])};
+#my $qr_Id = q{(?:[#_\w$@][#$:_.\w]*)} ;
+my $qr_Id = TSQL::Common::Regexp->qr_id();
+#my $qr_label = q{(?:[#_\w$@][#$:_.\w]*[:])};
+my $qr_label = TSQL::Common::Regexp->qr_label();
 
 ## add a backup create/drop/alter generic statement
 ## to cater for create xml index ???
