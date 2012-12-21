@@ -39,6 +39,7 @@
             "IPC::System::Simple" : "0",
             "List::MoreUtils" : "0",
             "List::Util" : "0",
+            "TSQL::Common::Regexp" : "0",
             "Test::More" : "0",
             "autodie" : "0",
             "indirect" : "0",
@@ -48,5 +49,5 @@
       }
    },
    "release_status" : "stable",
-   "version" : "0.07"
+   "version" : "0.08"
 }
