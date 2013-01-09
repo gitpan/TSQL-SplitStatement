@@ -16,3 +16,6 @@ Revision history for TSQL::SplitStatement
         Updated to use TSQL::Common::Regexp.
 0.08    21/12/12
         Dependencies fixed.
+0.09    09/01/13
+        Tokeniser now guards against temporary tables as well as variables having the same name as a 
+        statement leading edge 'token'.

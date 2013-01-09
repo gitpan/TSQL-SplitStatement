@@ -23,7 +23,7 @@ WriteMakefile(
         'IPC::System::Simple'       => 0, 
         'List::MoreUtils'           => 0,
         'List::Util'                => 0,
-        'TSQL::Common::Regexp'      => 0,
+        'TSQL::Common::Regexp'      => 0.02,
         'autodie'                   => 0,
         'indirect'                  => 0,
         'version'                   => 0,

@@ -25,10 +25,10 @@ requires:
   IPC::System::Simple: 0
   List::MoreUtils: 0
   List::Util: 0
-  TSQL::Common::Regexp: 0
+  TSQL::Common::Regexp: 0.02
   Test::More: 0
   autodie: 0
   indirect: 0
   perl: 0
   version: 0
-version: 0.08
+version: 0.09
