@@ -22,11 +22,11 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.09
+Version 0.10
 
 =cut
 
-our $VERSION = '0.09';
+our $VERSION = '0.10';
 
 
 
@@ -445,14 +445,14 @@ my @Phrases =
 ,       [q{(?:\b(?<![#@])ALTER\s+ENDPOINT\b)}                            , q{ALTER_ENDPOINT}                         ]                            
 ,       [q{(?:\b(?<![#@])ALTER\s+FULLTEXT\s+CATALOG\b)}                  , q{ALTER_FULLTEXT_CATALOG}                 ]                  
 ,       [q{(?:\b(?<![#@])ALTER\s+FULLTEXT\s+INDEX\b)}                    , q{ALTER_FULLTEXT_INDEX}                   ]                    
-,       [q{(?:\b(?<![#@])ALTER\s+FUNCTION\b)}                            , q{ALTER_FUNCTION}                         ]                               
+,       [q{(?:\b(?<![#@])ALTER\s+FUNCTION\b (:?.*?) \bRETURNS\b )}       , q{ALTER_FUNCTION}                         ]                               
 ,       [q{(?:\b(?<![#@])ALTER\s+INDEX\b)}                               , q{ALTER_INDEX}                            ]                               
 ,       [q{(?:\b(?<![#@])ALTER\s+LOGIN\b)}                               , q{ALTER_LOGIN}                            ]                               
 ,       [q{(?:\b(?<![#@])ALTER\s+MASTER\s+KEY\b)}                        , q{ALTER_MASTER_KEY}                       ]                        
 ,       [q{(?:\b(?<![#@])ALTER\s+MESSAGE\s+TYPE\b)}                      , q{ALTER_MESSAGE_TYPE}                     ]                      
 ,       [q{(?:\b(?<![#@])ALTER\s+PARTITION\s+FUNCTION\b)}                , q{ALTER_PARTITION_FUNCTION}               ]                
 ,       [q{(?:\b(?<![#@])ALTER\s+PARTITION\s+SCHEME\b)}                  , q{ALTER_PARTITION_SCHEME}                 ]                  
-,       [q{(?:\b(?<![#@])ALTER\s+PROCEDURE\b)}                           , q{ALTER_PROCEDURE}                        ]                           
+,       [q{(?:\b(?<![#@])ALTER\s+PROC(?:EDURE)?\b)(:?.*?) \bAS\b }       , q{ALTER_PROCEDURE}                        ]       
 ,       [q{(?:\b(?<![#@])ALTER\s+QUEUE\b)}                               , q{ALTER_QUEUE}                            ]                               
 ,       [q{(?:\b(?<![#@])ALTER\s+REMOTE\s+SERVICE\s+BINDING\b)}          , q{ALTER_REMOTE_SERVICE_BINDING}           ]          
 ,       [q{(?:\b(?<![#@])ALTER\s+ROLE\b)}                                , q{ALTER_ROLE}                             ]                                
@@ -462,7 +462,7 @@ my @Phrases =
 ,       [q{(?:\b(?<![#@])ALTER\s+SERVICE\s+MASTER\s+KEY\b)}              , q{ALTER_SERVICE_MASTER_KEY}               ]              
 ,       [q{(?:\b(?<![#@])ALTER\s+SYMMETRIC\s+KEY\b)}                     , q{ALTER_SYMMETRIC_KEY}                    ]                     
 ,       [q{(?:\b(?<![#@])ALTER\s+TABLE\b)}                               , q{ALTER_TABLE}                            ]                               
-,       [q{(?:\b(?<![#@])ALTER\s+TRIGGER\b)}                             , q{ALTER_TRIGGER}                          ]                             
+,       [q{(?:\b(?<![#@])ALTER\s+TRIGGER\b (:?.*?) \bAS\b)}              , q{ALTER_TRIGGER}                          ]                             
 ,       [q{(?:\b(?<![#@])ALTER\s+USER\b)}                                , q{ALTER_USER}                             ]                                
 ,       [q{(?:\b(?<![#@])ALTER\s+VIEW\b)}                                , q{ALTER_VIEW}                             ]                                
 ,       [q{(?:\b(?<![#@])ALTER\s+XML\s+SCHEMA\s+COLLECTION\b)}           , q{ALTER_XML_SCHEMA_COLLECTION}            ]           
@@ -500,7 +500,7 @@ my @Phrases =
 ,       [q{(?:\b(?<![#@])CREATE\s+EVENT\s+NOTIFICATION\b)}               , q{CREATE_EVENT_NOTIFICATION}              ]      
 ,       [q{(?:\b(?<![#@])CREATE\s+FULLTEXT\s+CATALOG\b)}                 , q{CREATE_FULLTEXT_CATALOG}                ]       
 ,       [q{(?:\b(?<![#@])CREATE\s+FULLTEXT\s+INDEX\b)}                   , q{CREATE_FULLTEXT_INDEX}                  ]       
-,       [q{(?:\b(?<![#@])CREATE\s+FUNCTION\b)}                           , q{CREATE_FUNCTION}                        ]       
+,       [q{(?:\b(?<![#@])CREATE\s+FUNCTION\b (:?.*?) \bRETURNS\b )}      , q{CREATE_FUNCTION}                        ]       
 ,       [q{(?:\b(?<![#@])CREATE\s+INDEX\b)}                              , q{CREATE_INDEX}                           ]       
 ,       [q{(?:\b(?<![#@])CREATE\s+UNIQUE\s+INDEX\b)}                     , q{CREATE_INDEX}                           ]
 ,       [q{(?:\b(?<![#@])CREATE\s+UNIQUE\s+CLUSTERED\s+INDEX\b)}         , q{CREATE_INDEX}                           ]

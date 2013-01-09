@@ -19,3 +19,6 @@ Revision history for TSQL::SplitStatement
 0.09    09/01/13
         Tokeniser now guards against temporary tables as well as variables having the same name as a 
         statement leading edge 'token'.
+0.10    09/01/13
+        Made Alter consistent with Create.  Added some extra context to Create/Alter.
+
