@@ -4,6 +4,7 @@ use 5.010 ;
 use warnings;
 use strict;
 
+use Data::Dumper;
 use Data::Dump 'pp';
 use autodie qw(:all);
 
@@ -16,7 +17,7 @@ my $parser = TSQL::SplitStatement->new();
 
 my @parsedInput = $parser->splitSQL($s);
 
-pp @parsedInput ;
+print Dumper \@parsedInput ;
 
 
 

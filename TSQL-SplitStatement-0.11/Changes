@@ -21,4 +21,6 @@ Revision history for TSQL::SplitStatement
         statement leading edge 'token'.
 0.10    09/01/13
         Made Alter consistent with Create.  Added some extra context to Create/Alter.
+0.11    09/01/13
+        Made basic test from sample script.
 

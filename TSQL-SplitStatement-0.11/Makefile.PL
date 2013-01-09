@@ -16,6 +16,7 @@ WriteMakefile(
     EXE_FILES => [],
     PREREQ_PM => {
         'Test::More'                => 0,
+        'Test::Deep'		    => 0,
         'Carp'                      => 0,
         'Clone'                     => 0,
         'Data::Dumper'              => 0,
@@ -23,7 +24,7 @@ WriteMakefile(
         'IPC::System::Simple'       => 0, 
         'List::MoreUtils'           => 0,
         'List::Util'                => 0,
-        'TSQL::Common::Regexp'      => 0.02,
+        'TSQL::Common::Regexp'      => 0.04,
         'autodie'                   => 0,
         'indirect'                  => 0,
         'version'                   => 0,
