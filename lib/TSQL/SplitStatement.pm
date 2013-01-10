@@ -4,6 +4,8 @@ use 5.010;
 use strict;
 use warnings;
 
+use English ;
+
 use List::Util      qw(first max maxstr min minstr reduce shuffle sum);
 use List::MoreUtils qw(indexes all any);
 #use Data::Dumper;
@@ -22,11 +24,11 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.11
+Version 0.12
 
 =cut
 
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 
 
@@ -154,16 +156,33 @@ $SIndex               = -1 ;
 
 # replace everything else ..............
 #'
-$s =~ s!(?<string>(?p) [N]?'(?:(?:[^']) | (?:''))*' )
-           |
-         (?<doublequoted>"(?:(?:[^"])     | (?:""))*" )
-           |
-         (?<bracketquoted>\[  .*? \]  )
-           |
-         (?<comment> \s____COMMENT_(?:\d)+\s
-         )
- ! if (defined($+{string})) {${SIndex}++; $S_replaces[${SIndex}] = $+{string} ; " ${SRepl}${SIndex} "} elsif (defined($+{doublequoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{doublequoted}; " ${QRepl}${QIndex} "} elsif (defined($+{bracketquoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{bracketquoted}; " ${QRepl}${QIndex} "}  elsif (defined($+{comment})) {$CommentIndex++; $Comment_positions[$CommentIndex]=length(${^PREMATCH}); ' ';} else {'z'} 
- !xigems ;
+# hack around broken ? ^PREMATCH handling in 5.17
+# and fixed $` handling
+if ( $PERL_VERSION >= v5.17.0 ) {
+    $s =~ s!(?<string>(?p) [N]?'(?:(?:[^']) | (?:''))*' )
+               |
+             (?<doublequoted>"(?:(?:[^"])     | (?:""))*" )
+               |
+             (?<bracketquoted>\[  .*? \]  )
+               |
+             (?<comment> \s____COMMENT_(?:\d)+\s
+             )
+     ! if (defined($+{string})) {${SIndex}++; $S_replaces[${SIndex}] = $+{string} ; " ${SRepl}${SIndex} "} elsif (defined($+{doublequoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{doublequoted}; " ${QRepl}${QIndex} "} elsif (defined($+{bracketquoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{bracketquoted}; " ${QRepl}${QIndex} "}  elsif (defined($+{comment})) {$CommentIndex++; $Comment_positions[$CommentIndex]=length($`); ' ';} else {'z'} 
+     !xigems ;
+}
+else {
+    $s =~ s!(?<string>(?p) [N]?'(?:(?:[^']) | (?:''))*' )
+               |
+             (?<doublequoted>"(?:(?:[^"])     | (?:""))*" )
+               |
+             (?<bracketquoted>\[  .*? \]  )
+               |
+             (?<comment> \s____COMMENT_(?:\d)+\s
+             )
+     ! if (defined($+{string})) {${SIndex}++; $S_replaces[${SIndex}] = $+{string} ; " ${SRepl}${SIndex} "} elsif (defined($+{doublequoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{doublequoted}; " ${QRepl}${QIndex} "} elsif (defined($+{bracketquoted})) {${QIndex}++; $Q_replaces[${QIndex}] = $+{bracketquoted}; " ${QRepl}${QIndex} "}  elsif (defined($+{comment})) {$CommentIndex++; $Comment_positions[$CommentIndex]=length(${^PREMATCH}); ' ';} else {'z'} 
+     !xigems ;
+}
+
 # ! if (defined($1)) {${SIndex}++; $S_replaces[${SIndex}] = $1 ; " ${SRepl}${SIndex} "} elsif (defined($2)) {${QIndex}++; $Q_replaces[${QIndex}] = $2; " ${QRepl}${QIndex} "} elsif (defined($3)) {${QIndex}++; $Q_replaces[${QIndex}] = $3; " ${QRepl}${QIndex} "}  elsif (defined($4)) {$CommentIndex++; $Comment_positions[$CommentIndex]=length(${^PREMATCH}); ' ';} else {'z'} 
 # '
  
@@ -315,14 +334,23 @@ my @TokenPositions = () ;
 # ! " ____SEPARATOR_TOKEN\n $1 "
 # !xigems ;
 
-while ( $s =~ m{${TokeniserPos}}xigms ) {
-    push @TokenPositions, length(${^PREMATCH}) ;
+# hack around broken ? ^PREMATCH handling in 5.17
+# and fixed $` handling
+if ( $PERL_VERSION >= v5.17.0 ) {
+    while ( $s =~ m{${TokeniserPos}}xigms ) {
+        push @TokenPositions, length($`) ;
+    }
+    foreach my $tokPos ( reverse @TokenPositions ) {
+        substr($s, $tokPos, 0) = " ____SEPARATOR_TOKEN\n " ;
+    }
 }
-
-#pp @TokenPositions ;
-
-foreach my $tokPos ( reverse @TokenPositions ) {
-    substr($s, $tokPos, 0) = " ____SEPARATOR_TOKEN\n " ;
+else {
+    while ( $s =~ m{${TokeniserPos}}xigms ) {
+        push @TokenPositions, length(${^PREMATCH}) ;
+    }
+    foreach my $tokPos ( reverse @TokenPositions ) {
+        substr($s, $tokPos, 0) = " ____SEPARATOR_TOKEN\n " ;
+    }
 }
 
 #print $s ;

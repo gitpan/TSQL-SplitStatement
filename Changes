@@ -23,4 +23,6 @@ Revision history for TSQL::SplitStatement
         Made Alter consistent with Create.  Added some extra context to Create/Alter.
 0.11    09/01/13
         Made basic test from sample script.
+0.12    10/01/13
+        Work around to broken(?) ${^PREMATCH} logic in perl 5.17.
 
