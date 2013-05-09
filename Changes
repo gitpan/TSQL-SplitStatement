@@ -25,4 +25,6 @@ Revision history for TSQL::SplitStatement
         Made basic test from sample script.
 0.12    10/01/13
         Work around to broken(?) ${^PREMATCH} logic in perl 5.17.
+0.13    09/09/13
+        Added greptsql.pl utility
 
