@@ -27,4 +27,6 @@ Revision history for TSQL::SplitStatement
         Work around to broken(?) ${^PREMATCH} logic in perl 5.17.
 0.13    09/09/13
         Added greptsql.pl utility
+0.14    09/09/13
+        Added support for hints against target table in insert statements.
 

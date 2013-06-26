@@ -24,11 +24,11 @@ TSQL::SplitStatement - Implements similar functionality to SQL::SplitStatement, 
 
 =head1 VERSION
 
-Version 0.13
+Version 0.14
 
 =cut
 
-our $VERSION = '0.13';
+our $VERSION = '0.14';
 
 
 
@@ -270,7 +270,7 @@ $s =~ s!\b(FOR\s+UPDATE(?:\s+OF\b)?)
  ! ${CursorForUpdatesIndex}++; $CursorForUpdates_replaces[${CursorForUpdatesIndex}] = $1 ; " ${CursorForUpdatesRepl}${CursorForUpdatesIndex} "; 
  !xigems ;
 
-$s =~ s!  \b( insert (?:\s+into)? \s+ \S+ \s* (?: ____BRACKETS_\d+ )? \s* )
+$s =~ s!  \b( insert (?:\s+into)? \s+ \S+ \s* (?: with \s* ____BRACKETS_\d+ )? \s* (?: ____BRACKETS_\d+ )? \s* )
           (
             (?:select)
                |

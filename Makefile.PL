@@ -18,7 +18,7 @@ WriteMakefile(
     
     PREREQ_PM => {
         'Test::More'                => 0,
-        'Test::Deep'            => 0,
+        'Test::Deep'                => 0,
         'Carp'                      => 0,
         'Clone'                     => 0,
         'Data::Dumper'              => 0,
